@@ -1,0 +1,56 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>百度一下，你就知道</title>
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="custom.css" type="text/css">
+	<script type="text/javaScript">
+		var local_url = window.location.href;
+		var index = local_url.indexOf("?wd=");
+		var title = local_url.substr(index+4);
+		if (index == -1 || !title) {	// 参数有错误时跳转至首页
+			index = local_url.indexOf("/search.html");
+			window.location.href = local_url.substring(0, index) + "/index.html";
+		} else {	// 设置页面标题
+			document.title = decodeURI(title) + "_搜索";
+		}
+	</script>
+</head>
+<body>
+	<div class="top">
+		<a href="index.html" style="float: left;">
+			<img src="logo.png" title="返回首页">
+		</a>
+		<div class="search2">
+			<form action="search.html" method="get">
+				<input id="wd" name="wd" class="wd2" type="text" autocomplete="off" maxlength="255">
+				<input type="submit" class="sbt2" value="百度一下">
+			</form>
+		</div>
+	</div>
+	<div id="main" class="main">
+		<iframe id="baidu" src="https://www.baidu.com/s?wd="></iframe>
+		<iframe id="sougou" src="https://www.sogou.com/web?query="></iframe>
+		<iframe id="360" src="https://www.so.com/s?q="></iframe>
+		<iframe id="biying" src="https://cn.bing.com/search?q="></iframe>
+	</div>
+	<script type="text/javaScript">
+		// 将内容填充到输入框
+		var word = document.title.substring(0, document.title.indexOf("_搜索"));
+		document.getElementById("wd").value = word;
+		document.getElementById("baidu").src += word;
+		document.getElementById("sougou").src += word;
+		document.getElementById("360").src += word;
+		document.getElementById("biying").src += word;
+		changeHeight();
+		window.onresize = function() {changeHeight();};
+		function changeHeight() {
+			var height = document.documentElement.clientHeight - 58 - 20 + 100;
+			document.getElementById("baidu").style.height = height + "px";
+			document.getElementById("sougou").style.height = height + "px";
+			document.getElementById("360").style.height = height + "px";
+			document.getElementById("biying").style.height = height + "px";
+		}
+	</script>
+</body>
+</html>
