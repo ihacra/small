@@ -4,15 +4,50 @@
 	<title>百度一下，你就知道</title>
 	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="custom.css" type="text/css">
+	<script type="text/javascript">
+		function check() {
+			return !!document.getElementById("word").value.replace(/^\s*|\s*$/g,"");
+		}
+		function changeType(id) {
+			var searchForm = document.getElementById("searchForm");
+			var word = document.getElementById("word");
+			var submit = document.getElementById("submit");
+			if (id == "s_baidu") {
+				searchForm.action = "https://www.baidu.com/s";
+				word.name = "wd";
+				submit.value = "百度一下";
+				submit.style.backgroundColor = "#3385ff";
+			} else if (id == "s_sougou") {
+				searchForm.action = "https://www.sogou.com/web";
+				word.name = "query";
+				submit.value = "搜狗搜索";
+				submit.style.backgroundColor = "#fd6853";
+			} else if (id == "s_360") {
+				searchForm.action = "https://www.so.com/s";
+				word.name = "q";
+				submit.value = "360搜索";
+				submit.style.backgroundColor = "#19b955";
+			} else if (id == "s_biying") {
+				searchForm.action = "https://cn.bing.com/search";
+				word.name = "q";
+				submit.value = "必应搜索";
+				submit.style.backgroundColor = "#00809d";
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="logo">
 		<img src="logo.png">
+		<div id="s_baidu" class="item" title="百度" style="margin-left: 274px;" onclick="changeType(this.id)"></div>
+		<div id="s_sougou" class="item" title="搜狗" style="margin-left: 353px;" onclick="changeType(this.id)"></div>
+		<div id="s_360" class="item" title="360" style="margin-left: 393px;" onclick="changeType(this.id)"></div>
+		<div id="s_biying" class="item" title="必应" style="margin-left: 471px;" onclick="changeType(this.id)"></div>
 	</div>
 	<div class="serach">
-		<form action="search.html" method="get">
-			<input id="wd" name="wd" class="wd" type="text" autocomplete="off" maxlength="255">
-			<input type="submit" class="sbt" value="百度一下">
+		<form id="searchForm" action="https://www.baidu.com/s" method="get" onsubmit="return check();">
+			<input id="word" name="wd" class="wd" type="text" autocomplete="off" maxlength="255">
+			<input id="submit" type="submit" class="sbt" value="百度一下">
 		</form>
 	</div>
 	<div class="info">
