@@ -18,7 +18,7 @@ body {
 
 .serach {
 	width: 640px;
-	margin: 50px auto;
+	margin: 45px auto;
 }
 
 .wd {
@@ -58,10 +58,11 @@ body {
 	color: #999999;
 	text-align: center;
 	position: absolute;
-	display: inline-block;
 	overflow: hidden;
-	bottom: 15px;
+	bottom: 50px;
 	left: 0;
+	height: 30px;
+	line-height: 30px;
 }
 
 .item {
@@ -74,6 +75,29 @@ body {
 	cursor: pointer;
 }
 
+.url_list {
+	width: 100%;
+	position: absolute;
+	overflow: hidden;
+	bottom: 80px;
+	text-align: center;
+}
+
+.url_list ul {
+	list-style: none;
+	display: inline-block;
+	padding: 0;
+}
+
+.url_list ul li {
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.url_list ul li a {
+	color: #999999;
+}
 
 
 
