@@ -4,109 +4,24 @@
 	<title>百度一下，你就知道</title>
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="custom.css" type="text/css">
-	<script type="text/javascript">
-		function check() {
-			return !!document.getElementById("word").value.replace(/^\s*|\s*$/g,"");
-		}
-		function changeType(id) {
-			var searchForm = document.getElementById("searchForm");
-			var word = document.getElementById("word");
-			var submit = document.getElementById("submit");
-			if (id == "s_baidu") {
-				searchForm.action = "https://www.baidu.com/s";
-				word.name = "wd";
-				submit.value = "百度一下";
-				submit.style.backgroundColor = "#3385ff";
-			} else if (id == "s_sougou") {
-				searchForm.action = "https://www.sogou.com/web";
-				word.name = "query";
-				submit.value = "搜狗搜索";
-				submit.style.backgroundColor = "#fd6853";
-			} else if (id == "s_360") {
-				searchForm.action = "https://www.so.com/s";
-				word.name = "q";
-				submit.value = "360搜索";
-				submit.style.backgroundColor = "#19b955";
-			} else if (id == "s_biying") {
-				searchForm.action = "https://cn.bing.com/search";
-				word.name = "q";
-				submit.value = "必应搜索";
-				submit.style.backgroundColor = "#00809d";
-			}
-		}
-		function addUrl() {
-			var reg = /^\s*\{\{\s*([\w\W]+?)\s*\}\}\s*\{\{\s*([\w\W]+?)\s*\}\}\s*$/g;
-			var input = document.getElementById("word");
-			var result = reg.exec(input.value);
-			if (result != null && result.length == 3) {
-				var urls = changeStorage(result[1], result[2]);
-				if (urls != null) changeList(urls);
-			} else {
-				input.value = "{{}}{{}}"
-			}
-		}
-		function removeUrl() {
-			var reg = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/g;
-			var input = document.getElementById("word");
-			var result = reg.exec(input.value);
-			if (result != null && result.length == 2) {
-				var urls = changeStorage(result[1]);
-				if (urls != null) changeList(urls);
-			} else {
-				input.value = "{{}}"
-			}
-		}
-		function changeStorage(name, url) {
-			if (typeof(Storage) == "undefined") {
-				console.log("抱歉！您的浏览器不支持 Web Storage ...");
-				return;
-			}
-			var urls = localStorage.getItem("urls");
-			if (urls == null) urls = [];
-			else urls = JSON.parse(urls);
-			if (name != null && url != null) {
-				var flag = false;
-				for (i = 0; i < urls.length; i++) {
-					if (urls[i].name == name) {
-						urls[i].url = url;
-						flag = true;
-					}
-				}
-				if (!flag) {
-					urls.push({"name":name, "url":url});
-				}
-				localStorage.setItem("urls", JSON.stringify(urls));
-				return urls;
-			} else if (name != null && url == null) {
-				for (i = 0; i < urls.length; i++) {
-					if (urls[i].name == name) {
-						urls.splice(i, 1);
-						localStorage.setItem("urls", JSON.stringify(urls));
-						return urls;
-					}
-				}
-			} else if (name == null && url == null) {
-				return urls;
-			}
-			return null;
-		}
-	</script>
 </head>
 <body>
-	<div class="logo">
-		<img src="logo.png">
-		<div id="s_baidu" class="item" title="百度" style="margin-left: 274px;" onclick="changeType(this.id)"></div>
-		<div id="c_add" class="item" title="添加链接" style="margin-left: 314px;" onclick="addUrl()"></div>
-		<div id="s_sougou" class="item" title="搜狗" style="margin-left: 353px;" onclick="changeType(this.id)"></div>
-		<div id="s_360" class="item" title="360" style="margin-left: 393px;" onclick="changeType(this.id)"></div>
-		<div id="c_remove" class="item" title="删除链接" style="margin-left: 433px;" onclick="removeUrl()"></div>
-		<div id="s_biying" class="item" title="必应" style="margin-left: 471px;" onclick="changeType(this.id)"></div>
-	</div>
-	<div class="serach">
-		<form id="searchForm" action="https://www.baidu.com/s" method="get" onsubmit="return check();">
-			<input id="word" name="wd" class="wd" type="text" autocomplete="off" maxlength="255">
-			<input id="submit" type="submit" class="sbt" value="百度一下">
-		</form>
+	<div id="div_serach">
+		<div class="logo">
+			<img src="logo.png">
+			<div id="s_baidu" class="item" title="百度" style="margin-left: 274px;" onclick="changeType(this.id)"></div>
+			<div id="c_add" class="item" title="添加链接" style="margin-left: 314px;" onclick="addUrl()"></div>
+			<div id="s_sougou" class="item" title="搜狗" style="margin-left: 353px;" onclick="changeType(this.id)"></div>
+			<div id="s_360" class="item" title="360" style="margin-left: 393px;" onclick="changeType(this.id)"></div>
+			<div id="c_remove" class="item" title="删除链接" style="margin-left: 433px;" onclick="removeUrl()"></div>
+			<div id="s_biying" class="item" title="必应" style="margin-left: 471px;" onclick="changeType(this.id)"></div>
+		</div>
+		<div class="serach">
+			<form id="searchForm" action="https://www.baidu.com/s" method="get" onsubmit="return check();">
+				<input id="word" name="wd" class="wd" type="text" autocomplete="off" maxlength="255">
+				<input id="submit" type="submit" class="sbt" value="百度一下">
+			</form>
+		</div>
 	</div>
 	<div class="url_list">
 		<ul id="div_ul"></ul>
@@ -114,21 +29,10 @@
 	<div class="info">
 		Copyright © 2019-2019 Search by Hacra
 	</div>
-	<script type="text/javascript">
-		document.getElementById("word").focus();
-		changeList(changeStorage());
-		
-		function changeList(urls) {
-			var ul = document.getElementById("div_ul");
-			for (i = 0; i < urls.length; i++) {
-				var li = document.createElement("li");
-				var a = document.createElement("a");
-				a.innerText = urls[i].name;
-				a.href = urls[i].url;
-				li.appendChild(a);
-				ul.appendChild(li);
-			}
-		}
-	</script>
 </body>
+<script charset="utf-8" src="custom.js"></script>
+<script type="text/javascript">
+	document.getElementById("word").focus();
+	changeList(changeStorage());
+</script>
 </html>
