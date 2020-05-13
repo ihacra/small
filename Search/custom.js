@@ -8,7 +8,7 @@ function changeType(id) {
 	var word = document.getElementById("word");
 	var submit = document.getElementById("submit");
 	if (id == "s_baidu") {
-		searchForm.action = "https://www.baidu.com/s";
+		searchForm.action = "https://www.baidu.com/baidu?tn=monline_7_dg&ie=utf-8&wd=";
 		word.name = "wd";
 		submit.value = "百度一下";
 		submit.style.backgroundColor = "#3385ff";
