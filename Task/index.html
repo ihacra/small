@@ -2,32 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>js如何读取json文件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>2021时间表</title>
+	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		var styleFile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iOS|iPad|Backerry|WebOS|Symbian|Windows Phone|Phone)/i) ? "phone.css" : "pc.css";
+		$("head").append("<link rel='stylesheet' type='text/css' href='"+styleFile+"'>");
+	</script>
     <script>
-        window.onload = function () {
-            var url = "data.json"
-            var request = new XMLHttpRequest();
-            request.open("get", url, true);
-            request.send(null);
-            request.onload = function () {
-                if (request.status == 200) {
-                    var json = JSON.parse(request.responseText);
-                    //console.log(json);
- 
-                    var ol = document.getElementById('ol');
-                    json.person.map(person => {
-                        var li = document.createElement("li");
-                        li.innerHTML = `名字是 ${person.name} 图片是 ${person.image}`;
-                        ol.append(li);
-                    })
-                }
-            }
-        }
+        $(document).ready(function(){
+			// 获取JSON数据，并调用initData进行显示
+			$.getJSON("data.json", function(json){
+				initData(json);
+			});
+		});
+		// 显示JSON中的数据到年历中
+		function initData(json) {
+			console.log(json)
+		}
     </script>
 </head>
 <body>
-    <ol id="ol">
+    <div class="title">2021 SCHEDULE TIME LIST PAPER</div>
 </body>
 </html>
