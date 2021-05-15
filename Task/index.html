@@ -1,132 +1,33 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>ZGH Task</title>
-	<style>
-		table {
-			margin: 0 auto;
-			font-size: 14px;
-			border-bottom: 1px solid #E0E0E0;
-			border-right: 1px solid #E0E0E0;
-		}
-		table tr td {
-			padding: 10px;
-			min-width: 80px;
-			border-top: 1px solid #E0E0E0;
-			border-left: 1px solid #E0E0E0;
-		}
-		table tr td span {
-			color:red;
-			cursor: pointer;
-			font-size: 10px;
-			margin-left: 5px;
-		}
-		.td {
-			color: red;
-		}
-		.sp {
-			color: black;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js如何读取json文件</title>
+    <script>
+        window.onload = function () {
+            var url = "index.json"
+            var request = new XMLHttpRequest();
+            request.open("get", url, true);
+            request.send(null);
+            request.onload = function () {
+                if (request.status == 200) {
+                    var json = JSON.parse(request.responseText);
+                    //console.log(json);
+ 
+                    var ol = document.getElementById('ol');
+                    json.person.map(person => {
+                        var li = document.createElement("li");
+                        li.innerHTML = `名字是 ${person.name} 图片是 ${person.image}`;
+                        ol.append(li);
+                    })
+                }
+            }
+        }
+    </script>
 </head>
 <body>
-	<table id="table" cellspacing="0" cellpadding="0">
-		<tr>
-			<td style="text-align: center;">周一</td>
-			<td style="text-align: center;">周二</td>
-			<td style="text-align: center;">周三</td>
-			<td style="text-align: center;">周四</td>
-			<td style="text-align: center;">周五</td>
-			<td style="text-align: center;">周六</td>
-			<td style="text-align: center;">周日</td>
-		</tr>
-		<tr>
-			<td>工作计划</td><td>工作计划</td><td>工作计划</td><td>工作计划</td><td>工作计划</td><td>工作计划</td><td>工作计划</td>
-		</tr>
-		<tr>
-			<td>光华制度</td><td>光华制度</td><td>光华制度</td><td>光华制度</td><td>光华制度</td><td>光华制度</td><td>光华制度</td>
-		</tr>
-		<tr>
-			<td>下午打卡</td><td>下午打卡</td><td>下午打卡</td><td>下午打卡</td><td>下午打卡</td><td>下午打卡</td><td>下午打卡</td>
-		</tr>
-		<tr>
-			<td>工作成果</td><td>工作成果</td><td>工作成果</td><td>工作成果</td><td>工作成果</td><td>工作成果</td><td>工作成果</td>
-		</tr>
-		<tr>
-			<td>验收成果</td><td>验收成果</td><td>验收成果</td><td>验收成果</td><td>验收成果</td><td>验收成果</td><td>验收成果</td>
-		</tr>
-		<tr>
-			<td>工作问答</td><td>工作问答</td><td>工作问答</td><td>工作问答</td><td>工作问答</td><td>工作问答</td><td>工作问答</td>
-		</tr>
-		<tr>
-			<td></td><td></td><td>自评价</td><td></td><td>评价自评价</td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td>用人计划</td><td></td><td></td><td></td>
-		</tr>
-	</table>
-	<script>
-		initUI();
-		initMM();
-		function initUI() {
-			var week = new Date().getDay() - 1;
-			week = week < 0 ? 6 : week;
-			var rows = document.getElementById("table").rows;
-			rows[0].cells[week].classList.add('td');
-			for (var i = 1; i < rows.length; i++) {
-				var td = rows[i].cells[week];
-				if (!!td.innerHTML) td.innerHTML += "<span onclick='wp(this, "+i+")'>[未完]</span>";
-			}
-		}
-		function initMM() {
-			var date = new Date();
-			var week = date.getDay()-1 < 0 ? 6 : date.getDay()-1;
-			var date1 = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
-			var date2 = localStorage.getItem("date");
-			if (date1 == date2) {
-				show(week, localStorage.getItem("data"));
-			} else {
-				localStorage.setItem("date", date1);
-				localStorage.setItem("data", "");
-			}
-		}
-		function wp(sp, i) {
-			if (sp.innerText == '[未完]') {
-				sp.innerText = '[完成]';
-				sp.classList.add('sp');
-				save('+', i);
-			} else {
-				sp.innerText = '[未完]';
-				sp.classList.remove('sp');
-				save('-', i);
-			}
-		}
-		function show(week, data) {
-			var rows = document.getElementById("table").rows;
-			data = data.split(',');
-			for (var i = 1; i < rows.length; i++) {
-				if (data.indexOf(i+'') >= 0) {
-					var sp = rows[i].cells[week].children[0];
-					sp.innerText = '[完成]';
-					sp.classList.add('sp');
-				}
-			}
-		}
-		function save(flag, i) {
-			var data = localStorage.getItem("data");
-			var dt = !!data ? data.split(',') : [];
-			if (dt.indexOf(i+'') >= 0) {
-				if (flag == '-') {
-					dt.splice(dt.indexOf(i+''), 1);
-					localStorage.setItem("data", dt.join(','));
-				}
-			} else {
-				if (flag == '+') {
-					dt.push(i);
-					localStorage.setItem("data", dt.join(','));
-				}
-			}
-		}
-	</script>
+    <ol id="ol">
 </body>
 </html>
