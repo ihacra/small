@@ -1,0 +1,23 @@
+body {
+	color: #333;
+    font-family: verdana,Arial,Helvetica,sans-serif;
+    font-size: 10pt;
+    line-height: 1.8em;
+	margin: 0;
+	padding: 0;
+	position:absolute;
+	left:50%;
+	top:50%;
+	overflow:hidden;
+	z-index:10;
+	height:100vw;
+	width:100vh;
+	transform:translate(-50%,-50%) rotate(90deg);
+	-webkit-transform:translate(-50%,-50%) rotate(90deg);
+}
+
+.title {
+	width:100vh;
+	font-size: 20pt;
+	font-weight: bold;
+}
